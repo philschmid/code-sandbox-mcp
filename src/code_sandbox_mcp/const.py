@@ -8,11 +8,11 @@ DEFAULT_LANGUAGE: Literal["python", "javascript", "go"] = "python"
 
 DEFAULT_ENVIRONMENT_MAP = {
     "python": {
-        "image": "python:3.13",
+        "image": "philschmi/code-sandbox-python:latest",
         "installed_libraries": "numpy, pandas, matplotlib, scikit-learn, requests, google-genai",
     },
     "javascript": {
-        "image": "nodejs:22",
+        "image": "philschmi/code-sandbox-js:latest",
         "installed_libraries": "@google/genai",
     },
     # "bash": {

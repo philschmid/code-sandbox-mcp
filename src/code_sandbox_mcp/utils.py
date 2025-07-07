@@ -3,7 +3,12 @@ import logging
 import os
 from typing import Literal
 
-from code_sandbox_mcp.const import DEFAULT_BACKEND, DEFAULT_LANGUAGE, EXECUTION_TIMEOUT
+from code_sandbox_mcp.const import (
+    DEFAULT_BACKEND,
+    DEFAULT_ENVIRONMENT_MAP,
+    DEFAULT_LANGUAGE,
+    EXECUTION_TIMEOUT,
+)
 from llm_sandbox import (
     SandboxBackend,
     SandboxSession,
@@ -39,19 +44,20 @@ def run_code(
         List of content items including execution results and any generated visualizations
 
     """
+    if language not in DEFAULT_ENVIRONMENT_MAP:
+        raise ValueError(f"Language {language} not supported")
+
     session_args = {
         "lang": language,
         "keep_template": True,
         "verbose": False,
         "backend": _get_backend(),
         "session_timeout": timeout,
+        "image": DEFAULT_ENVIRONMENT_MAP[language]["image"],
     }
 
     if environment:
         session_args["runtime_config"] = {"environment": environment}
-
-    if image:
-        session_args["image"] = image
 
     if libraries:
         session_args["libraries"] = libraries
@@ -62,4 +68,6 @@ def run_code(
             libraries=libraries or [],
             timeout=timeout,
         )
-    return result
+    if result.exit_code != 0:
+        raise Exception(result.stderr.strip())
+    return result.stdout.strip()
