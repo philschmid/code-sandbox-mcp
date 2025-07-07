@@ -9,6 +9,6 @@ ENV NPM_CONFIG_CACHE=/tmp/npm_cache
 
 # Pre-install global Node.js packages
 RUN npm install -g \
-    @google/genai \
+    @google/genai
 
 WORKDIR /sandbox

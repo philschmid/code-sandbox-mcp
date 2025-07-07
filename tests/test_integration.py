@@ -43,13 +43,24 @@ async def test_run_python_code_integration_with_error(mcp_stdio_server: FastMCP)
         assert "error" in result.content[0].text.lower()
 
 
-# @pytest.mark.asyncio
-# async def test_run_javascript_code_integration(mcp_stdio_server: FastMCP):
-#     """
-#     Tests the run_javascript_code tool using an in-memory client.
-#     """
-#     prompt = "console.log('Hello, World!');"
-#     async with Client(mcp_stdio_server) as client:
-#         result = await client.call_tool("run_javascript_code", {"code": prompt})
-#         assert isinstance(result[0].text, str)
-#         assert "2" in result[0].text
+@pytest.mark.asyncio
+async def test_run_javascript_code_integration(mcp_stdio_server: FastMCP):
+    """
+    Tests the run_javascript_code tool using an in-memory client.
+    """
+    prompt = "console.log('Hello, World!');"
+    async with Client(mcp_stdio_server) as client:
+        result = await client.call_tool("run_javascript_code", {"code": prompt})
+        assert isinstance(result.content[0].text, str)
+
+
+@pytest.mark.asyncio
+async def test_run_javascript_code_integration_with_error(mcp_stdio_server: FastMCP):
+    """
+    Tests the run_javascript_code tool using an in-memory client with an error
+    """
+    prompt = "const x = 1 / 0; console.log(y);"
+    async with Client(mcp_stdio_server) as client:
+        result = await client.call_tool("run_javascript_code", {"code": prompt})
+        assert isinstance(result.content[0].text, str)
+        assert "error" in result.content[0].text.lower()

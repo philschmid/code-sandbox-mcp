@@ -25,6 +25,8 @@ async def main():
             ),
         )
         print(response.text)
+        print("Tool Calls:")
+        print(response.automatic_function_calling_history)
 
 
 if __name__ == "__main__":

@@ -30,6 +30,10 @@ def run_python_code(
     """Execute Python code in the sandbox environment and captures the standard output and error."""
     try:
         result = run_code(code, language="python")
+        if len(result) == 0:
+            result = ExecutionResult(
+                exit_code=1, stderr="No output, forgot print()?"
+            ).to_json()
         return TextContent(text=result, type="text")
     except Exception as e:
         result = ExecutionResult(exit_code=1, stderr=str(e)).to_json()
@@ -48,13 +52,14 @@ def run_javascript_code(
     """Execute JavaScript code in the sandbox environment and captures the standard output and error."""
     try:
         result = run_code(code, language="javascript")
-        return TextContent(text=result.to_json(), type="text")
+        if len(result) == 0:
+            result = ExecutionResult(
+                exit_code=1, stderr="No output, forgot console.logs?"
+            ).to_json()
+        return TextContent(text=result, type="text")
     except Exception as e:
-        return [
-            TextContent(
-                text=ExecutionResult(exit_code=1, stderr=str(e)).to_json(), type="text"
-            )
-        ]
+        result = ExecutionResult(exit_code=1, stderr=str(e)).to_json()
+        return TextContent(text=result, type="text")
 
 
 @mcp.resource("sandbox://environments")
