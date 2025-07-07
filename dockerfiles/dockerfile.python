@@ -1,0 +1,26 @@
+FROM python:3.13-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /tmp/sandbox_output /tmp/sandbox_plots /tmp/pip_cache 
+    
+# Pre-install Python packages
+RUN pip install --upgrade pip --cache-dir /tmp/pip_cache \
+    numpy \
+    pandas \
+    matplotlib \
+    scikit-learn \
+    requests
+
+# Install more specific libraries
+RUN pip install --upgrade pip --cache-dir /tmp/pip_cache \
+    google-genai
+
+# Create working directory
+WORKDIR /sandbox
+
+# Optional: Create directories for output
+RUN mkdir -p /tmp/sandbox_output /tmp/sandbox_plots
