@@ -4,6 +4,7 @@ from typing import Literal
 
 EXECUTION_TIMEOUT: int = 30
 DEFAULT_BACKEND: str = os.getenv("BACKEND", "podman")
+VERBOSE: bool = os.getenv("VERBOSE", "false").lower() == "true"
 DEFAULT_LANGUAGE: Literal["python", "javascript", "go"] = "python"
 
 

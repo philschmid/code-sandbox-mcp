@@ -1,11 +1,11 @@
 import argparse
 import json
+import os
 from code_sandbox_mcp.const import DEFAULT_ENVIRONMENT_MAP
 from fastmcp import FastMCP
-from code_sandbox_mcp.const import DEFAULT_ENVIRONMENT_MAP
 from pydantic import Field
 from typing import Annotated
-from .utils import run_code
+from code_sandbox_mcp.utils import run_code
 
 from mcp.types import TextContent
 from llm_sandbox.data import ExecutionResult
@@ -74,24 +74,20 @@ def environment_details() -> str:
 
 
 def main():
-    # parser = argparse.ArgumentParser(description="Run Gemini MCP Server.")
-    # parser.add_argument(
-    #     "--env",
-    #     help="Key value environment variables to set in the sandbox",
-    #     default=None,
-    #     type=str,
-    #     nargs="+",
-    #     action="append",
-    #     metavar="KEY=VALUE",
-    #     help="Set environment variables in the format KEY=VALUE",
-    # )
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Run Gemini MCP Server.")
+    parser.add_argument(
+        "--pass-through-env",
+        help="Comma-separated list of environment variable keys to pass through to the sandbox (e.g., API_KEY,SECRET_TOKEN)",
+        default=None,
+        type=str,
+        metavar="KEY1,KEY2,KEY3",
+    )
+    args = parser.parse_args()
 
-    # environment = {}
-    # if args.env:
-    #     for env_var in args.env:
-    #         key, value = env_var.split("=")
-    #         environment[key] = value
+    print(args.pass_through_env)
+
+    if args.pass_through_env:
+        os.environ["PASSTHROUGH_ENV"] = args.pass_through_env
 
     mcp.run(
         transport="stdio",

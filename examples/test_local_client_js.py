@@ -3,6 +3,10 @@ import asyncio
 import time
 from mcp import ClientSession, StdioServerParameters, stdio_client
 
+server_params = StdioServerParameters(
+    command="code-sandbox-mcp",  # Executable
+)
+
 
 async def run():
     async with stdio_client(server_params) as (read, write):
@@ -17,7 +21,8 @@ async def run():
 
             start_time = time.time()
             r = await session.call_tool(
-                "run_python_code", arguments={"code": "print('Hello, World!')"}
+                "run_javascript_code",
+                arguments={"code": "console.log('Hello, World!');"},
             )
             print(r.content[0].text)
             print(f"Time taken: {time.time() - start_time} seconds")

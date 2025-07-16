@@ -25,8 +25,10 @@ pip install git+https://github.com/philschmid/code-sandbox-mcp.git
 ## Getting Started: Usage with an MCP Client
 
 Examples:
-- [Local Client](./examples/test_local_client.py)
-- [Gemini SDK](./examples/test_gemini.py)
+- [Local Client Python](./examples/test_local_client_python.py) example for running python code
+- [Gemini SDK](./examples/test_gemini.py) example for running python code with the Gemini SDK
+- [Calling Gemini from a client](./examples/test_client_gemini_call.py) example for running python code that uses the Gemini SDK and passes through the Gemini API key
+- [Local Client Javascript](./examples/test_local_client_js.py) example for running javascript code
 
 To use the Code Sandbox MCP server, you need to add it to your MCP client's configuration file (e.g., in your AI assistant's settings). The server is designed to be launched on-demand by the client.
 
@@ -37,6 +39,45 @@ Add the following to your `mcpServers` configuration:
   "mcpServers": {
     "code-sandbox": {
       "command": "code-sandbox-mcp",
+    }
+  }
+}
+```
+
+### Provide Secrets and pass through environment variables
+
+You can pass through environment variables to the sandbox by setting the `--pass-through-env` flag when starting the MCP server and providing the env when starting the server
+
+```json
+{
+  "mcpServers": {
+    "code-sandbox": {
+      "command": "code-sandbox-mcp",
+      "args": ["--pass-through-env", "API_KEY,SECRET_TOKEN"]
+      "env": {
+        "API_KEY": "1234567890",
+        "SECRET_TOKEN": "1234567890"
+      }
+    }
+  }
+}
+```
+
+### Provide a custom container image
+
+You can provide a custom container image by setting the `CONTAINER_IMAGE` and `CONTAINER_LANGUAGE` environment variables when starting the MCP server. Both variables are required as the `CONTAINER_LANGUAGE` is used to determine the commands to run in the container and the `CONTAINER_IMAGE` is used to determine the image to use.
+
+Note: When providing a custom container image both tools will use the same container image.
+
+```json
+{
+  "mcpServers": {
+    "code-sandbox": {
+      "command": "code-sandbox-mcp",
+      "env": {
+        "CONTAINER_IMAGE": "your-own-image",
+        "CONTAINER_LANGUAGE": "python" # or "javascript"
+      }
     }
   }
 }
