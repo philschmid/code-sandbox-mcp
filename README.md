@@ -83,6 +83,61 @@ Note: When providing a custom container image both tools will use the same conta
 }
 ```
 
+### Use with Gemini SDK
+
+The `code-sandbox-mcp` server can be used with the Gemini SDK by passing the `tools` parameter to the `generate_content` method.
+
+```python
+from fastmcp import Client
+from google import genai
+import asyncio
+
+
+mcp_client = Client(
+    {
+        "local_server": {
+            "transport": "stdio",
+            "command": "code-sandbox-mcp",
+        }
+    }
+)
+gemini_client = genai.Client()
+
+
+async def main():
+    async with mcp_client:
+        response = await gemini_client.aio.models.generate_content(
+            model="gemini-2.5-flash",
+            contents="Use Python to ping the google.com website and return the response time.",
+            config=genai.types.GenerateContentConfig(
+                temperature=0,
+                tools=[mcp_client.session],  # Pass the FastMCP client session
+            ),
+        )
+        print(response.text)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+### Use with Gemini CLI 
+
+The `code-sandbox-mcp` server can be used with the Gemini CLI. You can configure MCP servers at the global level in the `~/.gemini/settings.json` file or in your project's root directory, create or open the `.gemini/settings.json` file. Within the file, add the mcpServers configuration block.
+
+![Gemini CLI Settings](./assets/gemini-cli.png)
+
+See [settings.json](.gemini/settings.json) for an example and read more about the [Gemini CLI](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md)
+
+```json
+{
+  "mcpServers": {
+    "code-sandbox": {
+      "command": "code-sandbox-mcp",
+    }
+  }
+}
+```
+
 ## Customize/Build new Container Images
 
 The repository comes with 2 container images, which are published on Docker Hub:

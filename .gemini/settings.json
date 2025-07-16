@@ -1,0 +1,7 @@
+{
+    "mcpServers": {
+      "code-sandbox": {
+        "command": "code-sandbox-mcp"
+      }
+    }
+}
