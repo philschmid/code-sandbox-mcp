@@ -1,6 +1,6 @@
 # Code Sandbox MCP Server
 
-The Code Sandbox MCP Server is a secure, STDIO-based Model Context Protocol (MCP) Server, allowing AI assistants and LLM applications to safely execute code snippets using containerized environments. It is uses the [llm-sandbox](https://github.com/vndee/llm-sandbox) package to execute the code snippets. 
+The Code Sandbox MCP Server is a lightweight, STDIO-based Model Context Protocol (MCP) Server, allowing AI assistants and LLM applications to safely execute code snippets using containerized environments. It is uses the [llm-sandbox](https://github.com/vndee/llm-sandbox) package to execute the code snippets. 
 
 **How It Works:**
 1. Starts a container session (podman, docker, etc.) and ensures the session is open.
