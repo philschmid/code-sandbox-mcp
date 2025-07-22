@@ -12,6 +12,7 @@ The Code Sandbox MCP Server is a lightweight, STDIO-based Model Context Protocol
 4. Executes the language-specific commands to run the code, e.g. python `python3 -u code.py` or javascript `node -u code.js`
 5. Captures the output and error streams from the container.
 6. Returns the output and error streams to the client.
+7. Stops and removes the container. 
 
 **Available Tools:**
 - **run_python_code** - Executes a snippet of Python code in a secure, isolated sandbox.
