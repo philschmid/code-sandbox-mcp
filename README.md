@@ -4,6 +4,9 @@ The Code Sandbox MCP Server is a lightweight, STDIO-based Model Context Protocol
 
 ![Code Sandbox MCP](./assets/code-sandbox-mcp.png)
 
+<a href="https://glama.ai/mcp/servers/@philschmid/code-sandbox-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@philschmid/code-sandbox-mcp/badge" alt="Code Sandbox Server MCP server" />
+</a>
 
 **How It Works:**
 1. Starts a container session (podman, docker, etc.) and ensures the session is open.
